@@ -1,0 +1,67 @@
+{% extends 'planning/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12 h3 mt-5 text-center">
+            FoodPlan Dashboard
+        </div>
+        <div class="col-8 offset-2 mt-3 text-center">
+            <div class="h5">Active Meals</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Meal</th>
+                    <th scope="col">Delivered</th>
+                    <th scope="col">Expires</th>
+                    <th scope="col">Service</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for meal in active_meals %}
+                    <tr>
+                        <td>{{ meal.pk }}</td>
+                        <td>{{ meal.name }}</td>
+                        <td>{{ meal.delivery.arrival|date:'m-d-Y' }}</td>
+                        <td>{{ meal.expiration|date:'m-d-Y' }}</td>
+                        <td>{{ meal.service.name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td class='text-center' colspan="5">No Active Meals</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-8 offset-2 mt-3 text-center">
+            <div class="h5">On The Way</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Meal</th>
+                    <th scope="col">Being Delivered</th>
+                    <th scope="col">Service</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for meal in selected_meals %}
+                    <tr>
+                        <td>{{ meal.pk }}</td>
+                        <td>{{ meal.name }}</td>
+                        <td>{{ meal.delivery.arrival|date:'m-d-Y' }}</td>
+                        <td>{{ meal.service.name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td class='text-center' colspan="5">No Active Meals</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
