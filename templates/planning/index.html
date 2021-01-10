@@ -7,14 +7,14 @@
         <div class="col-12 h3 mt-5 text-center">
             FoodPlan Dashboard
         </div>
-        <div class="col-8 offset-2 mt-3 text-center">
+        <div class="col-12 col-md-8 mt-3 text-center">
             <div class="h5">Active Meals</div>
+            <div class="h6">Total: </div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Meal</th>
-                    <th scope="col">Delivered</th>
+                    <th scope="col">Servings</th>
                     <th scope="col">Expires</th>
                     <th scope="col">Service</th>
                 </tr>
@@ -22,42 +22,47 @@
                 <tbody>
                 {% for meal in active_meals %}
                     <tr>
-                        <td>{{ meal.pk }}</td>
-                        <td>{{ meal.name }}</td>
-                        <td>{{ meal.delivery.arrival|date:'m-d-Y' }}</td>
+                        <td>
+                            <a href="{% url 'meal' meal_id=meal.pk %}">
+                                {{ meal.name }}
+                            </a>
+                        </td>
+                        <td>{{ meal.servings }}</td>
                         <td>{{ meal.expiration|date:'m-d-Y' }}</td>
                         <td>{{ meal.service.name }}</td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td class='text-center' colspan="5">No Active Meals</td>
+                        <td class='text-center text-muted small' colspan="4">
+                            No Active Meals
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col-8 offset-2 mt-3 text-center">
-            <div class="h5">On The Way</div>
+        <div class="col-12 col-md-4 mt-3 text-center">
+            <div class="h5">Upcoming Deliveries</div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Meal</th>
-                    <th scope="col">Being Delivered</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Meals</th>
                     <th scope="col">Service</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for meal in selected_meals %}
+                {% for delivery in deliveries %}
                     <tr>
-                        <td>{{ meal.pk }}</td>
-                        <td>{{ meal.name }}</td>
-                        <td>{{ meal.delivery.arrival|date:'m-d-Y' }}</td>
-                        <td>{{ meal.service.name }}</td>
+                        <td>{{ delivery.arrival|date:'m-d-Y' }}</td>
+                        <td>{{ delivery.serving_count }}</td>
+                        <td>{{ delivery.service.name }}</td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td class='text-center' colspan="5">No Active Meals</td>
+                        <td class='text-center text-muted small' colspan="3">
+                            No Future Deliveries
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
